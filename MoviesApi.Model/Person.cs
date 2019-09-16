@@ -16,7 +16,14 @@ namespace MoviesApi.Model
         public Country Country { get; set; }
         public IList<Movie> Movies { get; private set; }
 
-        public Person(int id, string firstName, string lastName, TypeOfPeople type, DateTime dateOfBirth, DateTime dateOfDeath, TypeOfSex sex, Country country)
+        public Person(int id,
+                    string firstName,
+                    string lastName,
+                    TypeOfPeople type,
+                    DateTime dateOfBirth,
+                    DateTime dateOfDeath,
+                    TypeOfSex sex,
+                    Country country)
         {
             Id = id;
             FirstName = firstName;
