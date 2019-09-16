@@ -13,8 +13,10 @@ namespace MoviesApi.Model
         public DateTime DateOfBirth { get; set; }
         public DateTime DateOfDeath { get; set; }
         public TypeOfSex Sex { get; set; }
-        public Country Country { get; set; }
+        public Country CountryName { get; set; }
         public IList<Movie> Movies { get; private set; }
+
+        public Country Country { get; set; }
 
         public Person(int id,
                     string firstName,
@@ -23,7 +25,7 @@ namespace MoviesApi.Model
                     DateTime dateOfBirth,
                     DateTime dateOfDeath,
                     TypeOfSex sex,
-                    Country country)
+                    Country countryName)
         {
             Id = id;
             FirstName = firstName;
@@ -32,7 +34,7 @@ namespace MoviesApi.Model
             DateOfBirth = dateOfBirth;
             DateOfDeath = dateOfDeath;
             Sex = sex;
-            Country = country;
+            CountryName = countryName;
             Movies = new List<Movie>();
         }
 

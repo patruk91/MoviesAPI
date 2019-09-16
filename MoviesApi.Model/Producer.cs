@@ -9,20 +9,22 @@ namespace MoviesApi.Model
         public int Id { get; private set; }
         public string CompanyName { get; set; }
         public DateTime YearEstablished { get; set; }
-        public Country Country { get; set; }
+        public Country CountryName { get; set; }
         public long EstimatedCompanyValue { get; set; }
         public List<Movie> Movies { get; private set; }
+
+        public Country Country { get; set; }
 
         public Producer(int id,
                     string companyName,
                     DateTime yearEstablished,
-                    Country country,
+                    Country countryName,
                     long estimatedCompanyValue)
         {
             Id = id;
             CompanyName = companyName;
             YearEstablished = yearEstablished;
-            Country = country;
+            CountryName = countryName;
             EstimatedCompanyValue = estimatedCompanyValue;
             Movies = new List<Movie>();
         }
