@@ -13,7 +13,7 @@ namespace MoviesApi.Model
         public long Length { get; set; }
         public DateTime Year { get; set; }
         public Country Country { get; set; }
-        public IList<Person> Actors { get; set; }
+        public IList<Person> Actors { get; private set; }
 
         public Movie(int id, string title, Person director, TypesOfGenre genre, long length, DateTime year, Country country)
         {
