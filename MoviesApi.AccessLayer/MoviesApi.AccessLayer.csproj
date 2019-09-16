@@ -8,4 +8,8 @@
     <Folder Include="EntityConfiguration\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MoviesApi.Model\MoviesApi.Model.csproj" />
+  </ItemGroup>
+
 </Project>
