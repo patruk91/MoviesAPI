@@ -11,7 +11,7 @@ namespace MoviesApi.Model
         public DateTime YearEstablished { get; set; }
         public Country CountryName { get; set; }
         public long EstimatedCompanyValue { get; set; }
-        public List<Movie> Movies { get; private set; }
+        public IList<Movie> Movies { get; private set; }
 
         public Country Country { get; set; }
 

@@ -14,6 +14,7 @@ namespace MoviesApi.Model
         public DateTime Year { get; set; }
         public Country CountryName { get; set; }
         public IList<Person> Actors { get; private set; }
+        
 
         public Country Country { get; set; }
 

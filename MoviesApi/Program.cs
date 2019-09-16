@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using MoviesApi.AccessLayer;
 
 namespace MoviesApi
 {
@@ -15,6 +16,10 @@ namespace MoviesApi
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();
+            using (MoviesDBEntities context = new MoviesDBEntities())
+            {
+
+            }
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
