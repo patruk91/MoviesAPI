@@ -24,7 +24,7 @@ namespace MoviesApi.AccessLayer
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile("appsetting.json")
+                .AddJsonFile("appsettings.json")
                 .Build();
 
             optionsBuilder.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));

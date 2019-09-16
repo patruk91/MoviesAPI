@@ -13,5 +13,10 @@ namespace MoviesApi.Model
         public Movie Movie { get; set; }
         public Person Person { get; set; }
 
+        public Country(int id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
     }
 }
