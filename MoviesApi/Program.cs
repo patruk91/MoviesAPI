@@ -16,10 +16,7 @@ namespace MoviesApi
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();
-            using (MoviesDBEntities context = new MoviesDBEntities())
-            {
-
-            }
+            
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
