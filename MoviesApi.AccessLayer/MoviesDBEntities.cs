@@ -14,8 +14,7 @@ namespace MoviesApi.AccessLayer
         public virtual DbSet<Producer> Producers { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
 
-
-        public MoviesDBEntities()
+        public MoviesDBEntities(DbContextOptions<MoviesDBEntities> options) : base(options)
         {
             Database.EnsureDeleted();
             Database.EnsureCreated();

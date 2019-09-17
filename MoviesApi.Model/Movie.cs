@@ -13,9 +13,10 @@ namespace MoviesApi.Model
         public long Length { get; set; }
         public DateTime Year { get; set; }
         public Country CountryName { get; set; }
-        public IList<Person> Actors { get; private set; }
-        
+        public IList<Person> Actors { get; set; }
+        public IList<Producer> Producers { get; set; }
 
+        public int DirectorId { get; set; }
         public Country Country { get; set; }
 
         public Movie(int id,
@@ -34,6 +35,10 @@ namespace MoviesApi.Model
             Year = year;
             CountryName = countryName;
             Actors = new List<Person>();
+        }
+
+        public Movie()
+        {
         }
 
         public void AddActor(Person actor)

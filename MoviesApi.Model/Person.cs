@@ -14,7 +14,7 @@ namespace MoviesApi.Model
         public DateTime DateOfDeath { get; set; }
         public TypeOfSex Sex { get; set; }
         public Country CountryName { get; set; }
-        public IList<Movie> Movies { get; private set; }
+        public IList<Movie> Movies { get; set; }
 
         public Country Country { get; set; }
 
@@ -36,6 +36,10 @@ namespace MoviesApi.Model
             Sex = sex;
             CountryName = countryName;
             Movies = new List<Movie>();
+        }
+
+        public Person()
+        {
         }
 
         public void AddMovie(Movie movie)

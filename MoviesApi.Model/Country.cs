@@ -18,5 +18,9 @@ namespace MoviesApi.Model
             Id = id;
             Name = name;
         }
+
+        public Country()
+        {
+        }
     }
 }

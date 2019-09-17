@@ -8,6 +8,11 @@ namespace MoviesApi.AccessLayer
     {
         public void Configure(EntityTypeBuilder<Person> builder)
         {
+            builder
+                .HasOne<Country>(c => c.CountryName)
+                .WithOne(p => p.Person)
+                .HasForeignKey<Country>(c => c.Id);
+
             
         }
     }
