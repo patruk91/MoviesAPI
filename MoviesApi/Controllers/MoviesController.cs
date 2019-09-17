@@ -21,9 +21,9 @@ namespace MoviesApi
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Country>>> GetTodoItems()
+        public string GetTodoItems()
         {
-            return await _context.Countries.ToListAsync();
+            return "strg";
         }
     }
 }

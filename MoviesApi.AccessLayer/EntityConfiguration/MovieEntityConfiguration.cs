@@ -13,10 +13,13 @@ namespace MoviesApi.AccessLayer
                 .WithOne(p => p.Movie)
                 .HasForeignKey<Country>(c => c.Id);
 
-            builder
-                .HasOne<Person>(p => p.Director)
-                .WithMany(d => d.Movies)
-                .HasForeignKey(m => m.DirectorId);
+            //builder
+            //    .HasOne<Person>(p => p.Director)
+            //    .WithMany(d => d.Movie)
+            //    .HasForeignKey(m => m.DirectorId);
+
         }
+
+
     }
 }

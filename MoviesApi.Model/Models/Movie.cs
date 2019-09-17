@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoviesApi.Model.DbModels;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,11 +14,11 @@ namespace MoviesApi.Model
         public long Length { get; set; }
         public DateTime Year { get; set; }
         public Country CountryName { get; set; }
-        public IList<Person> Actors { get; set; }
-        public IList<Producer> Producers { get; set; }
 
         public int DirectorId { get; set; }
         public Country Country { get; set; }
+        public IList<MovieProducer> MovieProducers { get; set; }
+        public IList<MoviePerson> MoviePerson { get; set; }
 
         public Movie(int id,
                     string title,
@@ -34,16 +35,11 @@ namespace MoviesApi.Model
             Length = length;
             Year = year;
             CountryName = countryName;
-            Actors = new List<Person>();
         }
 
         public Movie()
         {
         }
 
-        public void AddActor(Person actor)
-        {
-            Actors.Add(actor);
-        }
     }
 }
