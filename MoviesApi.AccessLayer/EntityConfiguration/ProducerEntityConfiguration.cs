@@ -8,6 +8,9 @@ namespace MoviesApi.AccessLayer
     {
         public void Configure(EntityTypeBuilder<Producer> builder)
         {
+            builder
+                .Property(i => i.Id)
+                .ValueGeneratedOnAdd();
         }
     }
 }
