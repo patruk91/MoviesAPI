@@ -17,7 +17,18 @@ namespace MoviesApi
 
         public MoviesController(MoviesDBEntities context)
         {
-           
+            _context = context;
+            PopulateDb();
+        }
+
+        private void PopulateDb()
+        {
+            Country countryPoland = new Country("Poland");
+            Country countryVietnam = new Country("Vietnam");
+
+            _context.Countries.Add(countryPoland);
+            _context.Countries.Add(countryVietnam);
+            _context.SaveChanges();
         }
 
         [HttpGet]

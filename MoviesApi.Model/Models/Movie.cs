@@ -13,10 +13,9 @@ namespace MoviesApi.Model
         public TypesOfGenre Genre { get; set; }
         public long Length { get; set; }
         public DateTime Year { get; set; }
-        public Country CountryName { get; set; }
 
-        public int DirectorId { get; set; }
         public Country Country { get; set; }
+        public int DirectorId { get; set; }
         public IList<MovieProducer> MovieProducers { get; set; }
         public IList<MoviePerson> MoviePerson { get; set; }
 
@@ -26,7 +25,7 @@ namespace MoviesApi.Model
                     TypesOfGenre genre,
                     long length,
                     DateTime year,
-                    Country countryName)
+                    Country country)
         {
             Id = id;
             Title = title;
@@ -34,7 +33,7 @@ namespace MoviesApi.Model
             Genre = genre;
             Length = length;
             Year = year;
-            CountryName = countryName;
+            Country = country;
         }
 
         public Movie()

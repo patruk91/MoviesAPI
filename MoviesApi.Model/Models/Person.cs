@@ -14,9 +14,8 @@ namespace MoviesApi.Model
         public DateTime DateOfBirth { get; set; }
         public DateTime DateOfDeath { get; set; }
         public TypeOfSex Sex { get; set; }
-        public Country Country { get; set; }
 
-        public Country CountryConfiguration { get; set; }
+        public Country Country { get; set; }
         public IList<MoviePerson> MoviePerson { get; set; }
 
         public Person(int id,

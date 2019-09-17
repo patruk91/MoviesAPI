@@ -10,10 +10,9 @@ namespace MoviesApi.Model
         public int Id { get; private set; }
         public string CompanyName { get; set; }
         public DateTime YearEstablished { get; set; }
-        public Country Country { get; set; }
         public long EstimatedCompanyValue { get; set; }
 
-        public Country CountryConfiguration { get; set; }
+        public Country Country { get; set; }
         public IList<MovieProducer> MovieProducers { get; set; }
 
         public Producer(int id,

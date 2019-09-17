@@ -9,10 +9,6 @@ namespace MoviesApi.Model
         public int Id { get; private set; }
         public string Name { get; set; }
 
-        public Producer Producer { get; set; }
-        public Movie Movie { get; set; }
-        public Person Person { get; set; }
-
         public Country(int id, string name)
         {
             Id = id;
@@ -21,6 +17,11 @@ namespace MoviesApi.Model
 
         public Country()
         {
+        }
+
+        public Country(string name)
+        {
+            Name = name;
         }
     }
 }
