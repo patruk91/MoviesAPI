@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MoviesApi.Model;
+using System;
 
 namespace MoviesApi.AccessLayer
 {
@@ -11,6 +12,12 @@ namespace MoviesApi.AccessLayer
             builder
                 .Property(i => i.Id)
                 .ValueGeneratedOnAdd();
+
+            builder
+               .Property(e => e.Genre)
+               .HasConversion(
+                   v => v.ToString(),
+                   v => (TypesOfGenre)Enum.Parse(typeof(TypesOfGenre), v));
         }
 
 

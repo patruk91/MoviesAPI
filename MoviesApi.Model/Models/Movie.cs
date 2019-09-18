@@ -34,10 +34,14 @@ namespace MoviesApi.Model
             Length = length;
             Year = year;
             Country = country;
+            MoviePerson = new List<MoviePerson>();
+            MovieProducers = new List<MovieProducer>();
         }
 
         public Movie()
         {
+            MoviePerson = new List<MoviePerson>();
+            MovieProducers = new List<MovieProducer>();
         }
 
     }

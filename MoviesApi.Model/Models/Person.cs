@@ -35,10 +35,12 @@ namespace MoviesApi.Model
             DateOfDeath = dateOfDeath;
             Sex = sex;
             Country = country;
+            MoviePerson = new List<MoviePerson>();
         }
 
         public Person()
         {
+            MoviePerson = new List<MoviePerson>();
         }
     }
 }

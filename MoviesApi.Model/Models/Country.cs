@@ -18,10 +18,5 @@ namespace MoviesApi.Model
         public Country()
         {
         }
-
-        public Country(string name)
-        {
-            Name = name;
-        }
     }
 }

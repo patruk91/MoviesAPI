@@ -26,10 +26,12 @@ namespace MoviesApi.Model
             YearEstablished = yearEstablished;
             Country = country;
             EstimatedCompanyValue = estimatedCompanyValue;
+            MovieProducers = new List<MovieProducer>();
         }
 
         public Producer()
         {
+            MovieProducers = new List<MovieProducer>();
         }
     }
 }
