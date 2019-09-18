@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MoviesApi.AccessLayer\MoviesApi.AccessLayer.csproj" />
+    <ProjectReference Include="..\MoviesApi.Model\MoviesApi.Model.csproj" />
+  </ItemGroup>
+
+</Project>

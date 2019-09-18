@@ -22,6 +22,8 @@ namespace MoviesApi.AccessLayer
         {
             Database.EnsureDeleted();
             Database.EnsureCreated();
+            PopulateDb populateDb = new PopulateDb(this);
+            populateDb.FillDbWithData();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
