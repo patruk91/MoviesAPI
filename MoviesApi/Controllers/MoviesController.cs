@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MoviesApi.AccessLayer;
 using MoviesApi.Model;
 using MoviesApi.Model.DbModels;
+using MoviesApi.Model.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,9 +23,45 @@ namespace MoviesApi
         }
 
         [HttpGet]
-        public string GetTodoItems()
+        public async Task<ActionResult<IEnumerable<MovieDTO>>> GetMovies()
         {
-            return "strg";
+            return await _context.Movies
+                .Select(x => new MovieDTO
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    DirectorId = x.Director.Id,
+                    Genre = x.Genre,
+                    Length = x.Length,
+                    Year = x.Year,
+                    CountryName = x.Country.Name,
+                    MovieProducersId = x.MovieProducers.Select(y => y.ProducerId).ToList(),
+                    MovieActorsId = x.MoviePerson.Select(y => y.PersonId).ToList()
+                }).ToListAsync();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<MovieDTO>> GetMovie(int id)
+        {
+            var movieDTO = await _context.Movies
+                .Where(x => x.Id == id)
+                .Select(x => new MovieDTO
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    DirectorId = x.Director.Id,
+                    Genre = x.Genre,
+                    Length = x.Length,
+                    Year = x.Year,
+                    CountryName = x.Country.Name,
+                    MovieProducersId = x.MovieProducers.Select(y => y.ProducerId).ToList(),
+                    MovieActorsId = x.MoviePerson.Select(y => y.PersonId).ToList()
+                }).FirstOrDefaultAsync();
+            if (movieDTO == null)
+            {
+                return NotFound();
+            }
+            return movieDTO;
         }
     }
 }
