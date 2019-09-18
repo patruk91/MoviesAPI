@@ -44,5 +44,15 @@ namespace MoviesApi.Model
             MovieProducers = new List<MovieProducer>();
         }
 
+        public void Add(MoviePerson moviePerson)
+        {
+            MoviePerson.Add(moviePerson);
+        }
+
+        public void Add(MovieProducer movieProducer)
+        {
+            MovieProducers.Add(movieProducer);
+        }
+
     }
 }

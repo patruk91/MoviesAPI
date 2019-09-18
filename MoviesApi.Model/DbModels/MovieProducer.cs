@@ -12,6 +12,14 @@ namespace MoviesApi.Model.DbModels
         public int MovieId { get; set; }
         public Movie Movie { get; set; }
 
-       
+        public MovieProducer(Movie movie, Producer producer)
+        {
+            this.Movie = movie;
+            this.Producer = producer;
+        }
+
+        public MovieProducer()
+        {
+        }
     }
 }

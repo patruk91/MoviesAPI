@@ -12,5 +12,14 @@ namespace MoviesApi.Model.DbModels
         public int PersonId { get; set; }
         public Person Person { get; set; }
 
+        public MoviePerson(Movie movie, Person person)
+        {
+            this.Movie = movie;
+            this.Person = person;
+        }
+
+        public MoviePerson()
+        {
+        }
     }
 }

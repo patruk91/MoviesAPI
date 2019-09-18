@@ -70,17 +70,6 @@ namespace MoviesApi
                 Country = country2
             };
 
-            MoviePerson moviePerson1 = new MoviePerson();
-            moviePerson1.Person = actor1;
-            moviePerson1.Movie = movie1;
-
-            MoviePerson moviePerson2 = new MoviePerson();
-            moviePerson2.Person = actor2;
-            moviePerson2.Movie = movie1;
-
-            movie1.MoviePerson.Add(moviePerson1);
-            movie1.MoviePerson.Add(moviePerson2);
-
             Producer producer1 = new Producer
             {
                 CompanyName = "Test Company",
@@ -89,21 +78,15 @@ namespace MoviesApi
                 Country = country1,
             };
 
-            MovieProducer movieProducer1 = new MovieProducer();
-            movieProducer1.Movie = movie1;
-            movieProducer1.Producer = producer1;
+            MoviePerson moviePerson1 = new MoviePerson(movie1, actor1);
+            MoviePerson moviePerson2 = new MoviePerson(movie1, actor2);
+            MovieProducer movieProducer1 = new MovieProducer(movie1, producer1);
 
-            movie1.MovieProducers.Add(movieProducer1);
+            movie1.Add(moviePerson1);
+            movie1.Add(moviePerson2);
+            movie1.Add(movieProducer1);
 
-
-
-            _context.People.Add(actor1);
-            _context.People.Add(actor2);
             _context.Movies.Add(movie1);
-            _context.Producers.Add(producer1);
-
-            _context.Countries.Add(country1);
-            _context.Countries.Add(country2);
             _context.SaveChanges();
         }
 

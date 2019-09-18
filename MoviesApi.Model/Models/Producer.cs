@@ -33,5 +33,6 @@ namespace MoviesApi.Model
         {
             MovieProducers = new List<MovieProducer>();
         }
+
     }
 }
