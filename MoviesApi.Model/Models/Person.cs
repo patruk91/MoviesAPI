@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoviesApi.Model.DbModels;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,8 +14,9 @@ namespace MoviesApi.Model
         public DateTime DateOfBirth { get; set; }
         public DateTime DateOfDeath { get; set; }
         public TypeOfSex Sex { get; set; }
+
         public Country Country { get; set; }
-        public IList<Movie> Movies { get; private set; }
+        public IList<MoviePerson> MoviePerson { get; set; }
 
         public Person(int id,
                     string firstName,
@@ -33,12 +35,12 @@ namespace MoviesApi.Model
             DateOfDeath = dateOfDeath;
             Sex = sex;
             Country = country;
-            Movies = new List<Movie>();
+            MoviePerson = new List<MoviePerson>();
         }
 
-        public void AddMovie(Movie movie)
+        public Person()
         {
-            Movies.Add(movie);
+            MoviePerson = new List<MoviePerson>();
         }
     }
 }
