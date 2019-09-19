@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MoviesApi.AccessLayer.dao.sql
 {
-    class MoviePersonSql : IMoviePersonDao
+    public class MoviePersonSql : IMoviePersonDao
     {
         private readonly MoviesDBEntities _context;
 
