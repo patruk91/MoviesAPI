@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesApi.AccessLayer;
+using MoviesApi.AccessLayer.dao;
 using MoviesApi.AccessLayer.DAO;
 using MoviesApi.Model;
 using MoviesApi.Model.DbModels;
@@ -18,11 +19,13 @@ namespace MoviesApi
     {
         private readonly MoviesDBEntities _context;
         private IMovieDao _movieDao;
+        private IPersonDao _personDao;
 
-        public MoviesController(MoviesDBEntities context, IMovieDao movieDao)
+        public MoviesController(MoviesDBEntities context, IMovieDao movieDao, IPersonDao personDao)
         {
             _context = context;
             _movieDao = movieDao;
+            _personDao = personDao;
         }
 
         [HttpGet]
@@ -45,7 +48,7 @@ namespace MoviesApi
         [HttpPost]
         public async Task<ActionResult<MovieDTO>> PostMovie(MovieDTO movieDTO)
         {
-            Person director = await _context.People.FindAsync(movieDTO.DirectorId);
+            Person director = _personDao.GetPerson(movieDTO.DirectorId).Result;
             Country country = await _context.Countries.FindAsync(movieDTO.CountryId);
             Movie movie = new Movie
             {
@@ -79,7 +82,7 @@ namespace MoviesApi
         {
             foreach (int actorId in movieDTO.MovieActorsId)
             {
-                Person actor = await _context.People.FindAsync(actorId);
+                Person actor = _personDao.GetPerson(actorId).Result;
                 MoviePerson moviePerson = new MoviePerson(movie, actor);
                 movie.Add(moviePerson);
             }
@@ -99,7 +102,7 @@ namespace MoviesApi
             _context.MoviePersons.RemoveRange(actors);
             _context.MovieProducers.RemoveRange(producers);
 
-            Person director = await _context.People.FindAsync(movieDTO.DirectorId);
+            Person director = _personDao.GetPerson(movie.DirectorId).Result;
             Country country = await _context.Countries.FindAsync(movieDTO.CountryId);
             movie.Title = movieDTO.Title;
             movie.Director = director;

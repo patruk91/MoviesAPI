@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MoviesApi.AccessLayer;
+using MoviesApi.AccessLayer.dao;
 using MoviesApi.AccessLayer.dao.sql;
 using MoviesApi.AccessLayer.DAO;
 
@@ -35,7 +36,9 @@ namespace MoviesApi
                     Configuration.GetConnectionString("DefaultConnection")));
 
             MovieSql moviesSql = new MovieSql(new MoviesDBEntities(new DbContextOptions<MoviesDBEntities>()));
+            IPersonDao personDao = new PersonSql(new MoviesDBEntities(new DbContextOptions<MoviesDBEntities>()));
             services.Add(new ServiceDescriptor(typeof(IMovieDao), moviesSql));
+            services.Add(new ServiceDescriptor(typeof(IPersonDao), personDao));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
