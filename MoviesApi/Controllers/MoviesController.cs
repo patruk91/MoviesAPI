@@ -28,19 +28,7 @@ namespace MoviesApi
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MovieDTO>>> GetMovies()
         {
-            return await _context.Movies
-                .Select(x => new MovieDTO
-                {
-                    Id = x.Id,
-                    Title = x.Title,
-                    DirectorId = x.Director.Id,
-                    Genre = x.Genre,
-                    Length = x.Length,
-                    Year = x.Year,
-                    CountryId = x.Country.Id,
-                    MovieProducersId = x.MovieProducers.Select(y => y.ProducerId).ToList(),
-                    MovieActorsId = x.MoviePerson.Select(y => y.PersonId).ToList()
-                }).ToListAsync();
+            return await _movieDao.GetMovies();
         }
 
         [HttpGet("{id}")]
