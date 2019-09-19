@@ -1,7 +1,6 @@
 ﻿using MoviesApi.Model.DbModels;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MoviesApi.Model
 {
