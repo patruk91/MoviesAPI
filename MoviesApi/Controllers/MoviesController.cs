@@ -20,12 +20,14 @@ namespace MoviesApi
         private readonly MoviesDBEntities _context;
         private IMovieDao _movieDao;
         private ICountryDao _countryDao;
+        private IPersonDao _personDao;
 
-        public MoviesController(MoviesDBEntities context, IMovieDao movieDao, ICountryDao countryDao)
+        public MoviesController(MoviesDBEntities context, IMovieDao movieDao, ICountryDao countryDao, IPersonDao personDao)
         {
             _context = context;
             _movieDao = movieDao;
             _countryDao = countryDao;
+            _personDao = personDao;
         }
 
         [HttpGet]
@@ -48,8 +50,9 @@ namespace MoviesApi
         [HttpPost]
         public async Task<ActionResult<MovieDTO>> PostMovie(MovieDTO movieDTO)
         {
-            Person director = await _context.People.FindAsync(movieDTO.DirectorId);
+            Person director = _personDao.GetPerson(movieDTO.DirectorId).Result;
             Country country = _countryDao.GetCountry(movieDTO.CountryId).Result;
+
             Movie movie = new Movie
             {
                 Title = movieDTO.Title,
@@ -82,7 +85,7 @@ namespace MoviesApi
         {
             foreach (int actorId in movieDTO.MovieActorsId)
             {
-                Person actor = await _context.People.FindAsync(actorId);
+                Person actor = _personDao.GetPerson(actorId).Result;
                 MoviePerson moviePerson = new MoviePerson(movie, actor);
                 movie.Add(moviePerson);
             }
@@ -102,8 +105,9 @@ namespace MoviesApi
             _context.MoviePersons.RemoveRange(actors);
             _context.MovieProducers.RemoveRange(producers);
 
-            Person director = await _context.People.FindAsync(movieDTO.DirectorId);
+            Person director = _personDao.GetPerson(movie.DirectorId).Result;
             Country country = _countryDao.GetCountry(movieDTO.CountryId).Result;
+
             movie.Title = movieDTO.Title;
             movie.Director = director;
             movie.Genre = movieDTO.Genre;
