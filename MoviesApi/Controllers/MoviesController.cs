@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesApi.AccessLayer;
+using MoviesApi.AccessLayer.dao;
 using MoviesApi.AccessLayer.DAO;
 using MoviesApi.Model;
 using MoviesApi.Model.DbModels;
@@ -18,11 +19,13 @@ namespace MoviesApi
     {
         private readonly MoviesDBEntities _context;
         private IMovieDao _movieDao;
+        private ICountryDao _countryDao;
 
-        public MoviesController(MoviesDBEntities context, IMovieDao movieDao)
+        public MoviesController(MoviesDBEntities context, IMovieDao movieDao, ICountryDao countryDao)
         {
             _context = context;
             _movieDao = movieDao;
+            _countryDao = countryDao;
         }
 
         [HttpGet]
@@ -46,7 +49,7 @@ namespace MoviesApi
         public async Task<ActionResult<MovieDTO>> PostMovie(MovieDTO movieDTO)
         {
             Person director = await _context.People.FindAsync(movieDTO.DirectorId);
-            Country country = await _context.Countries.FindAsync(movieDTO.CountryId);
+            Country country = _countryDao.GetCountry(movieDTO.CountryId).Result;
             Movie movie = new Movie
             {
                 Title = movieDTO.Title,
@@ -100,7 +103,7 @@ namespace MoviesApi
             _context.MovieProducers.RemoveRange(producers);
 
             Person director = await _context.People.FindAsync(movieDTO.DirectorId);
-            Country country = await _context.Countries.FindAsync(movieDTO.CountryId);
+            Country country = _countryDao.GetCountry(movieDTO.CountryId).Result;
             movie.Title = movieDTO.Title;
             movie.Director = director;
             movie.Genre = movieDTO.Genre;
