@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MoviesApi.AccessLayer;
 using MoviesApi.AccessLayer.dao;
 using MoviesApi.Model;
@@ -45,7 +46,8 @@ namespace MoviesApi
         [HttpPost]
         public async Task<ActionResult<ProducerDTO>> PostProducer(ProducerDTO producerDTO)
         {
-            Country country = _countryDao.GetCountry(producerDTO.CountryId).Result;
+            Country country = await _context.Countries.FindAsync(producerDTO.CountryId);
+            //_countryDao.GetCountry(producerDTO.CountryId).Result;
 
             Producer producer = new Producer
             {
@@ -60,6 +62,40 @@ namespace MoviesApi
             _context.Producers.Add(producer);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetProducer), new { id = producerDTO.Id }, producerDTO);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> EditProducer(int id, ProducerDTO producerDTO)
+        {
+            if (id != producerDTO.Id)
+            {
+                return BadRequest();
+            }
+            Producer producer = await _context.Producers.FindAsync(id);
+
+            Country country = await _context.Countries.FindAsync(producerDTO.CountryId);
+
+            producer.CompanyName = producerDTO.CompanyName;
+            producer.YearEstablished = producerDTO.YearEstablished;
+            producer.EstimatedCompanyValue = producerDTO.EstimatedCompanyValue;
+            producer.Country = country;
+
+            _context.Entry(producer).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> RemoveProducer(int id)
+        {
+            Producer producer = _context.Producers.Find(id);
+            if (producer == null)
+            {
+                return NotFound();
+            }
+            _context.Producers.Remove(producer);
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
 
 
