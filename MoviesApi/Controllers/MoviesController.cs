@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesApi.AccessLayer;
+using MoviesApi.AccessLayer.DAO;
 using MoviesApi.Model;
 using MoviesApi.Model.DbModels;
 using MoviesApi.Model.DTO;
@@ -16,10 +17,12 @@ namespace MoviesApi
     public class MoviesController : ControllerBase
     {
         private readonly MoviesDBEntities _context;
+        private IMovieDao _movieDao;
 
-        public MoviesController(MoviesDBEntities context)
+        public MoviesController(MoviesDBEntities context, IMovieDao movieDao)
         {
             _context = context;
+            _movieDao = movieDao;
         }
 
         [HttpGet]
