@@ -36,9 +36,11 @@ namespace MoviesApi
                     Configuration.GetConnectionString("DefaultConnection")));
 
             MovieSql moviesSql = new MovieSql(new MoviesDBEntities(new DbContextOptions<MoviesDBEntities>()));
+            ICountryDao countryDao = new CountrySql(new MoviesDBEntities(new DbContextOptions<MoviesDBEntities>()));
             IPersonDao personDao = new PersonSql(new MoviesDBEntities(new DbContextOptions<MoviesDBEntities>()));
             services.Add(new ServiceDescriptor(typeof(IMovieDao), moviesSql));
             services.Add(new ServiceDescriptor(typeof(IPersonDao), personDao));
+            services.Add(new ServiceDescriptor(typeof(ICountryDao), countryDao));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

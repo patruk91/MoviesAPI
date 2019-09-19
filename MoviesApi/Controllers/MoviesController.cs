@@ -19,12 +19,14 @@ namespace MoviesApi
     {
         private readonly MoviesDBEntities _context;
         private IMovieDao _movieDao;
+        private ICountryDao _countryDao;
         private IPersonDao _personDao;
 
-        public MoviesController(MoviesDBEntities context, IMovieDao movieDao, IPersonDao personDao)
+        public MoviesController(MoviesDBEntities context, IMovieDao movieDao, ICountryDao countryDao, IPersonDao personDao)
         {
             _context = context;
             _movieDao = movieDao;
+            _countryDao = countryDao;
             _personDao = personDao;
         }
 
@@ -49,7 +51,8 @@ namespace MoviesApi
         public async Task<ActionResult<MovieDTO>> PostMovie(MovieDTO movieDTO)
         {
             Person director = _personDao.GetPerson(movieDTO.DirectorId).Result;
-            Country country = await _context.Countries.FindAsync(movieDTO.CountryId);
+            Country country = _countryDao.GetCountry(movieDTO.CountryId).Result;
+
             Movie movie = new Movie
             {
                 Title = movieDTO.Title,
@@ -103,7 +106,8 @@ namespace MoviesApi
             _context.MovieProducers.RemoveRange(producers);
 
             Person director = _personDao.GetPerson(movie.DirectorId).Result;
-            Country country = await _context.Countries.FindAsync(movieDTO.CountryId);
+            Country country = _countryDao.GetCountry(movieDTO.CountryId).Result;
+
             movie.Title = movieDTO.Title;
             movie.Director = director;
             movie.Genre = movieDTO.Genre;
