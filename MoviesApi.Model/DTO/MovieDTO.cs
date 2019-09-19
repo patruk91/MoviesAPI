@@ -12,7 +12,7 @@ namespace MoviesApi.Model.DTO
         public TypesOfGenre Genre { get; set; }
         public long Length { get; set; }
         public DateTime Year { get; set; }
-        public string CountryName { get; set; }
+        public int CountryId { get; set; }
         public List<int> MovieProducersId { get; set; }
         public List<int> MovieActorsId { get; set; }
     }
