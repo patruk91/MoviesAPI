@@ -115,8 +115,11 @@ namespace MoviesApi
                 return BadRequest();
             }
             Movie movie = await _context.Movies.FindAsync(id);
-            movie.MoviePerson.Clear();
-            movie.MovieProducers.Clear();
+            IList<MoviePerson> actors = _context.MoviePersons.Where(x => x.MovieId == id).ToList();
+            IList<MovieProducer> producers = _context.MovieProducers.Where(x => x.MovieId == id).ToList();
+
+            _context.MoviePersons.RemoveRange(actors);
+            _context.MovieProducers.RemoveRange(producers);
 
             Person director = await _context.People.FindAsync(movieDTO.DirectorId);
             Country country = await _context.Countries.FindAsync(movieDTO.CountryId);
@@ -126,8 +129,8 @@ namespace MoviesApi
             movie.Length = movieDTO.Length;
             movie.Year = movieDTO.Year;
             movie.Country = country;
-            //await AddActorsToMovie(movieDTO, movie);
-            //await AddProducersToMovie(movieDTO, movie);
+            await AddActorsToMovie(movieDTO, movie);
+            await AddProducersToMovie(movieDTO, movie);
 
             _context.Entry(movie).State = EntityState.Modified;
             await _context.SaveChangesAsync();
