@@ -137,5 +137,17 @@ namespace MoviesApi
             return NoContent();
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> RemoveMovie(int id)
+        {
+            Movie movie = _context.Movies.Find(id);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+            _context.Movies.Remove(movie);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
     }
 }
