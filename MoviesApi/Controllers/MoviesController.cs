@@ -79,23 +79,60 @@ namespace MoviesApi
                 Country = country
 
             };
-            foreach (int actorId in movieDTO.MovieActorsId)
-            {
-                Person actor = await _context.People.FindAsync(actorId);
-                MoviePerson moviePerson = new MoviePerson(movie, actor);
-                movie.Add(moviePerson);
-            }
+            await AddActorsToMovie(movieDTO, movie);
+            await AddProducersToMovie(movieDTO, movie);
 
+            _context.Movies.Add(movie);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetMovie), new { id = movieDTO.Id }, movieDTO);
+        }
+
+        private async Task AddProducersToMovie(MovieDTO movieDTO, Movie movie)
+        {
             foreach (int producerId in movieDTO.MovieProducersId)
             {
                 Producer producer = await _context.Producers.FindAsync(producerId);
                 MovieProducer movieProducer = new MovieProducer(movie, producer);
                 movie.Add(movieProducer);
             }
-
-            _context.Movies.Add(movie);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetMovie), new { id = movieDTO.Id }, movieDTO);
         }
+
+        private async Task AddActorsToMovie(MovieDTO movieDTO, Movie movie)
+        {
+            foreach (int actorId in movieDTO.MovieActorsId)
+            {
+                Person actor = await _context.People.FindAsync(actorId);
+                MoviePerson moviePerson = new MoviePerson(movie, actor);
+                movie.Add(moviePerson);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditMovie(int id, MovieDTO movieDTO)
+        {
+            if(id != movieDTO.Id)
+            {
+                return BadRequest();
+            }
+            Movie movie = await _context.Movies.FindAsync(id);
+            movie.MoviePerson.Clear();
+            movie.MovieProducers.Clear();
+
+            Person director = await _context.People.FindAsync(movieDTO.DirectorId);
+            Country country = await _context.Countries.FindAsync(movieDTO.CountryId);
+            movie.Title = movieDTO.Title;
+            movie.Director = director;
+            movie.Genre = movieDTO.Genre;
+            movie.Length = movieDTO.Length;
+            movie.Year = movieDTO.Year;
+            movie.Country = country;
+            //await AddActorsToMovie(movieDTO, movie);
+            //await AddProducersToMovie(movieDTO, movie);
+
+            _context.Entry(movie).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
     }
 }
