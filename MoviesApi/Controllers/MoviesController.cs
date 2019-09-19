@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesApi.AccessLayer;
+using MoviesApi.AccessLayer.dao;
+using MoviesApi.AccessLayer.DAO;
 using MoviesApi.Model;
 using MoviesApi.Model.DbModels;
 using MoviesApi.Model.DTO;
@@ -16,47 +18,28 @@ namespace MoviesApi
     public class MoviesController : ControllerBase
     {
         private readonly MoviesDBEntities _context;
+        private IMovieDao _movieDao;
+        private ICountryDao _countryDao;
+        private IPersonDao _personDao;
 
-        public MoviesController(MoviesDBEntities context)
+        public MoviesController(MoviesDBEntities context, IMovieDao movieDao, ICountryDao countryDao, IPersonDao personDao)
         {
             _context = context;
+            _movieDao = movieDao;
+            _countryDao = countryDao;
+            _personDao = personDao;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MovieDTO>>> GetMovies()
         {
-            return await _context.Movies
-                .Select(x => new MovieDTO
-                {
-                    Id = x.Id,
-                    Title = x.Title,
-                    DirectorId = x.Director.Id,
-                    Genre = x.Genre,
-                    Length = x.Length,
-                    Year = x.Year,
-                    CountryId = x.Country.Id,
-                    MovieProducersId = x.MovieProducers.Select(y => y.ProducerId).ToList(),
-                    MovieActorsId = x.MoviePerson.Select(y => y.PersonId).ToList()
-                }).ToListAsync();
+            return await _movieDao.GetMovies();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<MovieDTO>> GetMovie(int id)
         {
-            var movieDTO = await _context.Movies
-                .Where(x => x.Id == id)
-                .Select(x => new MovieDTO
-                {
-                    Id = x.Id,
-                    Title = x.Title,
-                    DirectorId = x.Director.Id,
-                    Genre = x.Genre,
-                    Length = x.Length,
-                    Year = x.Year,
-                    CountryId = x.Country.Id,
-                    MovieProducersId = x.MovieProducers.Select(y => y.ProducerId).ToList(),
-                    MovieActorsId = x.MoviePerson.Select(y => y.PersonId).ToList()
-                }).FirstOrDefaultAsync();
+            ActionResult<MovieDTO> movieDTO = await _movieDao.GetMovie(id);
             if (movieDTO == null)
             {
                 return NotFound();
@@ -67,8 +50,9 @@ namespace MoviesApi
         [HttpPost]
         public async Task<ActionResult<MovieDTO>> PostMovie(MovieDTO movieDTO)
         {
-            Person director = await _context.People.FindAsync(movieDTO.DirectorId);
-            Country country = await _context.Countries.FindAsync(movieDTO.CountryId);
+            Person director = _personDao.GetPerson(movieDTO.DirectorId).Result;
+            Country country = _countryDao.GetCountry(movieDTO.CountryId).Result;
+
             Movie movie = new Movie
             {
                 Title = movieDTO.Title,
@@ -101,7 +85,7 @@ namespace MoviesApi
         {
             foreach (int actorId in movieDTO.MovieActorsId)
             {
-                Person actor = await _context.People.FindAsync(actorId);
+                Person actor = _personDao.GetPerson(actorId).Result;
                 MoviePerson moviePerson = new MoviePerson(movie, actor);
                 movie.Add(moviePerson);
             }
@@ -121,8 +105,9 @@ namespace MoviesApi
             _context.MoviePersons.RemoveRange(actors);
             _context.MovieProducers.RemoveRange(producers);
 
-            Person director = await _context.People.FindAsync(movieDTO.DirectorId);
-            Country country = await _context.Countries.FindAsync(movieDTO.CountryId);
+            Person director = _personDao.GetPerson(movie.DirectorId).Result;
+            Country country = _countryDao.GetCountry(movieDTO.CountryId).Result;
+
             movie.Title = movieDTO.Title;
             movie.Director = director;
             movie.Genre = movieDTO.Genre;
