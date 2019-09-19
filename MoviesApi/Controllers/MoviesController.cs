@@ -40,7 +40,8 @@ namespace MoviesApi
                 }).ToListAsync();
         }
 
-        [HttpGet("{id:int}")]
+        [Route("{id:int}")]
+        [HttpGet]
         public async Task<ActionResult<MovieDTO>> GetMovie(int id)
         {
             var movieDTO = await _context.Movies
@@ -63,8 +64,8 @@ namespace MoviesApi
             }
             return movieDTO;
         }
-
-        [HttpGet("title/{title}")]
+        [Route("{title:alpha}")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<MovieDTO>>> GetMovieByTitle(string title)
         {
             return await _context.Movies
