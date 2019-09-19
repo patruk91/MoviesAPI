@@ -21,18 +21,21 @@ namespace MoviesApi
         private IMovieDao _movieDao;
         private ICountryDao _countryDao;
         private IPersonDao _personDao;
+        private IMoviePersonDao _moviePersonDao;
         private IMovieProducerDao _movieProducerDao;
 
         public MoviesController(MoviesDBEntities context,
                                 IMovieDao movieDao,
                                 ICountryDao countryDao,
                                 IPersonDao personDao,
+                                IMoviePersonDao moviePersonDao,
                                 IMovieProducerDao movieProducerDao)
         {
             _context = context;
             _movieDao = movieDao;
             _countryDao = countryDao;
             _personDao = personDao;
+            _moviePersonDao = moviePersonDao;
             _movieProducerDao = movieProducerDao;
         }
 
@@ -105,9 +108,8 @@ namespace MoviesApi
                 return BadRequest();
             }
             Movie movie = await _context.Movies.FindAsync(id);
-            IList<MoviePerson> actors = _context.MoviePersons.Where(x => x.MovieId == id).ToList();
+            _moviePersonDao.RemoveActorsFromMovie(id);
             _movieProducerDao.RemoveProducersFromMovie(id);
-            _context.MoviePersons.RemoveRange(actors);
 
             Person director = _personDao.GetPerson(movie.DirectorId).Result;
             Country country = _countryDao.GetCountry(movieDTO.CountryId).Result;
