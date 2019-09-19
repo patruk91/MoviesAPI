@@ -34,20 +34,7 @@ namespace MoviesApi
         [HttpGet("{id}")]
         public async Task<ActionResult<MovieDTO>> GetMovie(int id)
         {
-            var movieDTO = await _context.Movies
-                .Where(x => x.Id == id)
-                .Select(x => new MovieDTO
-                {
-                    Id = x.Id,
-                    Title = x.Title,
-                    DirectorId = x.Director.Id,
-                    Genre = x.Genre,
-                    Length = x.Length,
-                    Year = x.Year,
-                    CountryId = x.Country.Id,
-                    MovieProducersId = x.MovieProducers.Select(y => y.ProducerId).ToList(),
-                    MovieActorsId = x.MoviePerson.Select(y => y.PersonId).ToList()
-                }).FirstOrDefaultAsync();
+            ActionResult<MovieDTO> movieDTO = await _movieDao.GetMovie(id);
             if (movieDTO == null)
             {
                 return NotFound();

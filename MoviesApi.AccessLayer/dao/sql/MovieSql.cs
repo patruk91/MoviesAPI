@@ -24,9 +24,22 @@ namespace MoviesApi.AccessLayer.dao.sql
             throw new NotImplementedException();
         }
 
-        public Task<ActionResult<MovieDTO>> GetMovie(int id)
+        public async Task<ActionResult<MovieDTO>> GetMovie(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Movies
+               .Where(x => x.Id == id)
+               .Select(x => new MovieDTO
+               {
+                   Id = x.Id,
+                   Title = x.Title,
+                   DirectorId = x.Director.Id,
+                   Genre = x.Genre,
+                   Length = x.Length,
+                   Year = x.Year,
+                   CountryId = x.Country.Id,
+                   MovieProducersId = x.MovieProducers.Select(y => y.ProducerId).ToList(),
+                   MovieActorsId = x.MoviePerson.Select(y => y.PersonId).ToList()
+               }).FirstOrDefaultAsync();
         }
 
         public async Task<ActionResult<IEnumerable<MovieDTO>>> GetMovies()
