@@ -39,7 +39,7 @@ namespace MoviesApi
             ICountryDao countryDao = new CountrySql(new MoviesDBEntities(new DbContextOptions<MoviesDBEntities>()));
             IPersonDao personDao = new PersonSql(new MoviesDBEntities(new DbContextOptions<MoviesDBEntities>()));
             IMovieProducerDao movieProducerDao = new MovieProducerSql(new MoviesDBEntities(new DbContextOptions<MoviesDBEntities>()));
-            IMoviePersonDao MoviePersonDao = new MoviePersonSql(new MoviesDBEntities(new DbContextOptions<MoviesDBEntities>()));
+            IMoviePersonDao moviePersonDao = new MoviePersonSql(new MoviesDBEntities(new DbContextOptions<MoviesDBEntities>()));
             services.Add(new ServiceDescriptor(typeof(IMovieDao), moviesSql));
             services.Add(new ServiceDescriptor(typeof(IPersonDao), personDao));
             services.Add(new ServiceDescriptor(typeof(ICountryDao), countryDao));
