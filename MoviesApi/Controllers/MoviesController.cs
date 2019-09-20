@@ -36,7 +36,8 @@ namespace MoviesApi
             return await _movieDao.GetMovies();
         }
 
-        [HttpGet("{id}")]
+        [Route("{id:int}")]
+        [HttpGet]
         public async Task<ActionResult<MovieDTO>> GetMovie(int id)
         {
             ActionResult<MovieDTO> movieDTO = await _movieDao.GetMovie(id);
@@ -45,6 +46,25 @@ namespace MoviesApi
                 return NotFound();
             }
             return movieDTO;
+        }
+        [Route("{title:alpha}")]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<MovieDTO>>> GetMovieByTitle(string title)
+        {
+            return await _context.Movies
+                .Where(x => x.Title.Contains(title))
+                .Select(x => new MovieDTO
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    DirectorId = x.Director.Id,
+                    Genre = x.Genre,
+                    Length = x.Length,
+                    Year = x.Year,
+                    CountryId = x.Country.Id,
+                    MovieProducersId = x.MovieProducers.Select(y => y.ProducerId).ToList(),
+                    MovieActorsId = x.MoviePerson.Select(y => y.PersonId).ToList()
+                }).ToListAsync();
         }
 
         [HttpPost]
