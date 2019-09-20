@@ -64,7 +64,7 @@ namespace MoviesApi
             return CreatedAtAction(nameof(GetProducer), new { id = producerDTO.Id }, producerDTO);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> EditProducer(int id, ProducerDTO producerDTO)
         {
             if (id != producerDTO.Id)
